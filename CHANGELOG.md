@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.6.0](https://github.com/terraform-aws-modules/terraform-aws-cloudfront/compare/v6.5.1...v6.6.0) (2026-05-08)
+
+### Features
+
+* Add support for cache policy and origin request policy resources ([#204](https://github.com/terraform-aws-modules/terraform-aws-cloudfront/issues/204)) ([20f24af](https://github.com/terraform-aws-modules/terraform-aws-cloudfront/commit/20f24aff5f990ae0821088bf78c70510167a4e1b))
+
 ## [6.5.1](https://github.com/terraform-aws-modules/terraform-aws-cloudfront/compare/v6.5.0...v6.5.1) (2026-04-27)
 
 ### Bug Fixes
