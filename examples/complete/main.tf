@@ -218,6 +218,18 @@ module "cloudfront" {
 
       allowed_methods = ["GET", "HEAD", "OPTIONS"]
       cached_methods  = ["GET", "HEAD"]
+    },
+    {
+      path_pattern           = "/module-policies/*"
+      target_origin_id       = "s3"
+      viewer_protocol_policy = "redirect-to-https"
+
+      allowed_methods = ["GET", "HEAD", "OPTIONS"]
+      cached_methods  = ["GET", "HEAD"]
+
+      # Reference cache and origin request policies created by this module via map keys
+      cache_policy_key          = "example"
+      origin_request_policy_key = "example"
     }
   ]
 
@@ -273,6 +285,58 @@ module "cloudfront" {
     #     "arn:aws:cloudfront::123456789012:key-value-store/example-redirects"
     #   ]
     # }
+  }
+
+  cache_policies = {
+    example = {
+      name        = "ExampleCachePolicy"
+      comment     = "Example cache policy"
+      min_ttl     = 1
+      default_ttl = 50
+      max_ttl     = 100
+
+      parameters_in_cache_key_and_forwarded_to_origin = {
+        enable_accept_encoding_brotli = true
+        enable_accept_encoding_gzip   = true
+
+        cookies_config = {
+          cookie_behavior = "none"
+        }
+
+        headers_config = {
+          header_behavior = "whitelist"
+          headers = {
+            items = ["Authorization"]
+          }
+        }
+
+        query_strings_config = {
+          query_string_behavior = "none"
+        }
+      }
+    }
+  }
+
+  origin_request_policies = {
+    example = {
+      name    = "ExampleOriginRequestPolicy"
+      comment = "Example origin request policy"
+
+      cookies_config = {
+        cookie_behavior = "none"
+      }
+
+      headers_config = {
+        header_behavior = "whitelist"
+        headers = {
+          items = ["Origin"]
+        }
+      }
+
+      query_strings_config = {
+        query_string_behavior = "all"
+      }
+    }
   }
 
   response_headers_policies = {
